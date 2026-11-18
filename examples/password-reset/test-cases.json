@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {"id": "TC-01", "title": "Reset password with valid 8-character password", "technique": "boundary value", "criterion": "AC2",
+     "preconditions": ["Valid, unused reset link"], "steps": ["Open reset link", "Enter 8-character password", "Submit"],
+     "expected": "Success message shown; user can log in with the new password", "priority": "High"},
+    {"id": "TC-02", "title": "Reset password with valid 64-character password", "technique": "boundary value", "criterion": "AC2",
+     "preconditions": ["Valid, unused reset link"], "steps": ["Open reset link", "Enter 64-character password", "Submit"],
+     "expected": "Success message shown", "priority": "Medium"},
+    {"id": "TC-03", "title": "Reject 65-character password", "technique": "boundary value", "criterion": "AC2",
+     "preconditions": ["Valid, unused reset link"], "steps": ["Open reset link", "Enter 65-character password", "Submit"],
+     "expected": "Validation error; password unchanged", "priority": "Medium"},
+    {"id": "TC-04", "title": "Reject 7-character password", "technique": "boundary value", "criterion": "AC2",
+     "preconditions": ["Valid, unused reset link"], "steps": ["Open reset link", "Enter 7-character password", "Submit"],
+     "expected": "Validation error; password unchanged", "priority": "High"},
+    {"id": "TC-05", "title": "Reject empty password", "technique": "equivalence partitioning", "criterion": "AC2",
+     "preconditions": ["Valid, unused reset link"], "steps": ["Open reset link", "Leave password empty", "Submit"],
+     "expected": "Validation error; password unchanged", "priority": "Medium"},
+    {"id": "TC-06", "title": "Accept link used at 29 minutes", "technique": "boundary value", "criterion": "AC1",
+     "preconditions": ["Reset link issued 29 minutes ago"], "steps": ["Open reset link", "Enter valid password", "Submit"],
+     "expected": "Success message shown", "priority": "High"},
+    {"id": "TC-07", "title": "Reject link used after 30 minutes", "technique": "boundary value", "criterion": "AC1",
+     "preconditions": ["Reset link issued 31 minutes ago"], "steps": ["Open reset link", "Enter valid password", "Submit"],
+     "expected": "Error: link has expired; password unchanged", "priority": "High"},
+    {"id": "TC-08", "title": "Reject reuse of a consumed link", "technique": "negative", "criterion": "AC3",
+     "preconditions": ["Reset link already used successfully once"], "steps": ["Open the same reset link", "Enter valid password", "Submit"],
+     "expected": "Error: link already used; password unchanged", "priority": "High"}
+  ],
+  "questions": [
+    "Is the 30-minute expiry measured from when the email is sent or when the link is requested?",
+    "Are there password complexity rules beyond length (digits, symbols, no reuse of old passwords)?",
+    "Should requesting a new link invalidate older unused links?"
+  ]
+}
